@@ -1,4 +1,5 @@
 import express from "express";
+import getMovies from "./getMovies.js";
 import searchMovies from "./searchMovies.js";
 const app = express();
 const port = process.env.PORT || 5000;
@@ -14,3 +15,4 @@ app.get("/search/:title", async (req, res) => {
 });
 
 app.listen(port, () => {});
+getMovies();
