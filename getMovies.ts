@@ -1,13 +1,21 @@
-import fetch from "node-fetch";
-import cheerio from "cheerio";
+import axios from "axios";
+import { load } from "cheerio";
 
 const url =
   "https://www.imdb.com/search/title/?groups=top_250&sort=user_rating";
-const getMovies = async () => {
-  const response = await fetch(`${url}`);
-  const body = await response.text();
-  const $ = cheerio.load(body);
-  const allMovies = [];
+type Movie = {
+  title: string;
+  year: string;
+  director: string;
+  stars: string;
+  rating: string;
+  metaScrore: string;
+};
+
+export const getMovies = async () => {
+  const { data } = await axios.get(`${url}`);
+  const $ = load(data);
+  const allMovies: Movie[] = [];
   const $post = $(".lister-item-content");
 
   $post.each((i, ele) => {
@@ -20,10 +28,7 @@ const getMovies = async () => {
       .replace(/[()\ \s-]+/g, "");
 
     const director = element.find("p a").first().text();
-    const stars = element
-      .find("p a")
-      .filter(() => element.find("p a").first().text())
-      .text();
+    const stars = element.children("p").eq(2).children("a").text();
 
     const rating = element.find(".ratings-bar div strong").text();
     const metaScrore = element
@@ -47,5 +52,3 @@ const getMovies = async () => {
   console.log(allMovies);
   return allMovies;
 };
-
-export default getMovies;
