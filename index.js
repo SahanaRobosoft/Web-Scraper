@@ -13,6 +13,10 @@ app.get("/search/:title", async (req, res) => {
     res.json(movies);
   });
 });
-
+app.get("/movies", async (req, res) => {
+  await getMovies().then((allMovies) => {
+    res.json(allMovies);
+  });
+});
 app.listen(port, () => {});
 getMovies();

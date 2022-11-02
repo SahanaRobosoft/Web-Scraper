@@ -33,6 +33,7 @@ const getMovies = async () => {
       .find("span")
       .text()
       .trim();
+
     const movie = {
       title: title,
       year: year,
@@ -42,9 +43,9 @@ const getMovies = async () => {
       metaScrore: metaScrore,
     };
     allMovies.push(movie);
-    console.log(movie);
-    return allMovies;
   });
+  console.log(allMovies);
+  return allMovies;
 };
 
 export default getMovies;
